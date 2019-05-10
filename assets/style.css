@@ -9,3 +9,17 @@
     -webkit-box-shadow: inset 0 0 10px #000000;
     box-shadow:         inset 0 0 10px #000000;
  }
+
+ nav {
+    height: 9vh !important;
+ }
+
+ .navItem {
+     padding-top: .5vh;
+ }
+
+ #navSearch {
+position: absolute;
+top: -.5vh;
+right: .5vw;
+}
