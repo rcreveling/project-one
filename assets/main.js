@@ -1,5 +1,14 @@
 $(document).ready(function () {
     $('.slider').slider();
+    // function for next slide
+    $('.next').click(function () {
+        $('.slider').slider('next');
+    });
+
+    // function for prev slide
+    $('.prev').click(function () {
+        $('.slider').slider('prev');
+    });
 });
 
 
