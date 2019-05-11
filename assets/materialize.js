@@ -7398,11 +7398,11 @@ $jscomp.polyfill = function (e, r, p, m) {
         if (!this.$el.hasClass('fullscreen')) {
           if (this.options.indicators) {
             // Add height if indicators are present
-            this.$el.css('height', this.options.height + 40 + 'px');
+            this.$el.css('height', 48.5 +  'vh');
           } else {
-            this.$el.css('height', this.options.height + 'px');
+            this.$el.css('height', 48.5 + 'vh');
           }
-          this.$slider.css('height', this.options.height + 'px');
+          this.$slider.css('height', 48.5 + 'vh');
         }
       }
 

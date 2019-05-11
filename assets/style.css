@@ -53,21 +53,29 @@ right: .5vw;
 }
 
 #bannerRow{
-    margin: 0 auto !important;
+    margin: 5% auto !important;
     width: auto !important;
-    height: 10vh !important;
+    height: 12vh !important;
     background-color: white;
     text-align: center;
     margin-bottom: 0 !important;
+    z-index: 4 !important;
 }
    
 
  .header {
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    margin: 30px;
+    padding: 0 0 1vh 0;
+    font-size: auto;
+    height: 12vh !important;
+    text-decoration: underline black;
+    
  }
 
  
-
+#congressList {
+    min-width: 95vw !important;
+    margin: 0 auto !important;
+}
 
