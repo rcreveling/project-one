@@ -79,3 +79,14 @@ right: .5vw;
     margin: 0 auto !important;
 }
 
+.btn-floating {
+    position:absolute;
+    bottom:5px;
+    right:5px;
+}
+
+.far fa-file {
+    position:absolute;
+    bottom:5px;
+    right:5px;
+}
