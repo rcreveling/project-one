@@ -53,16 +53,15 @@ $.ajax({
             var linkSlider = $("<a>");
             linkSlider.attr("href", results[i].web_url);
             linkSlider.attr("class", "btn-floating blue");
-            var floatingButton = $("<i>");
-         //   floatingButton.attr("class", "far fa-file");
-            
+        
+            linkSlider.append("<i class='fa fa-link'></i>");
             
            
             imageSlider.append(linkSlider);
-            imageSlider.append(floatingButton);
+         //   imageSlider.append(floatingButton);
             var image = $("<img>");
             image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
-
+            image.attr("style", "height: 48.5vh");
             imageSlider.append(image);
 
             $(".slides").append(imageSlider);
