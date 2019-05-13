@@ -38,27 +38,23 @@ $.ajax({
 
     for (i = 0; i < results.length; i++) {
 
-
+        // if the news article contains an image...
         if (results[i].multimedia[0]) {
-
-            console.log(results[i].multimedia[0].url);
-            console.log(results[i].web_url);
-
 
             var imageSlider = $("<div>");
             imageSlider.attr("class", "fixed-action-btn");
-            
-             imageSlider = $("<li>");
+
+            imageSlider = $("<li>");
 
             var linkSlider = $("<a>");
             linkSlider.attr("href", results[i].web_url);
             linkSlider.attr("class", "btn-floating blue");
-        
+
             linkSlider.append("<i class='fa fa-link'></i>");
-            
-           
+
+
             imageSlider.append(linkSlider);
-         //   imageSlider.append(floatingButton);
+
             var image = $("<img>");
             image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
             image.attr("style", "height: 48.5vh");
