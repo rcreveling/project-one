@@ -58,6 +58,8 @@ right: .5vw;
 #congressList {
     min-width: 95vw !important;
     margin: 0 auto !important;
+    max-height: 80vh !important;
+    overflow-y: scroll !important;
     
 }
 
@@ -97,3 +99,23 @@ right: .5vw;
     box-shadow: inset -1px -2px 5px -1px black;
 
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 202, 0.5); 
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.5); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
