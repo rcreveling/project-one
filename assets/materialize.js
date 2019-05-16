@@ -7398,11 +7398,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         if (!this.$el.hasClass('fullscreen')) {
           if (this.options.indicators) {
             // Add height if indicators are present
-<<<<<<< HEAD
-            this.$el.css('height', 48.5 +  'vh');
-=======
             this.$el.css('height', 48.5 + 'vh');
->>>>>>> master
           } else {
             this.$el.css('height', 48.5 + 'vh');
           }
