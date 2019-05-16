@@ -29,6 +29,7 @@ $(document).ready(function () {
             // if the news article contains an image...
             if (results[i].multimedia[0]) {
                 console.log(results[i].headline.main);
+                var headline = $("")
                 var imageSlider = $("<div>");
                 imageSlider.attr("class", "fixed-action-btn");
 
@@ -37,12 +38,7 @@ $(document).ready(function () {
                 var linkSlider = $("<a>");
                 linkSlider.attr("href", results[i].web_url);
                 linkSlider.attr("class", "btn-floating blue");
-
-                linkSlider.append("<i class='fa fa-link'></i>");
-
-
-
-
+                linkSlider.append("<i class='fa fa-link black'></i>");
                 var image = $("<img>");
                 image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
                 image.css({
@@ -56,10 +52,12 @@ $(document).ready(function () {
                 });
                 linkSlider.css({
                     position: "relative",
-                    bottom: "7.5vh"
+                    bottom: "3vh",
+                    right: "3vw",
+                    boxShadow: "0px 0px 1px 1px white"
                 })
                 imageSlider.css({
-                    backgroundColor: "linear-gradient(to right, rgb(220, 220, 230) rgb(220, 20, 30))"
+                    background: "linear-gradient(0.25turn, blue, white, rgba(230, 0, 0, 0.9))"
                 })
                 imageSlider.append(image);
                 imageSlider.append(linkSlider);
@@ -226,6 +224,7 @@ $(document).ready(function () {
                 boxShadow: "0px 0px 1px 3px black",
                 maxHeight: "20vh",
                 width: "auto",
+                backgroundColor: "linear-gradient(to right, red white)"
             })
             newModal.append(newModalContent).append(themeImage).append(newModalFooter)
 

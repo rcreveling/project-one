@@ -7421,8 +7421,6 @@ $jscomp.polyfill = function (e, r, p, m) {
             // var $indicator = $('<li class="indicator-item"></li>');
             var $indicatorBtn = $('<button class="btn blue white-text indicator-item"></button>')
             // _this43.$indicators.append($indicator[0]);
-            var indexNum = (Number(index) + 1)
-            $indicatorBtn.text(indexNum)
             _this43.$indicators.append($indicatorBtn[0]);
 
           });
