@@ -129,7 +129,6 @@ $(document).ready(function () {
         } // end constructor
 
         buildCardForMember(indexVal) {
-
             var thisOne = allMembersArray[indexVal]
             console.log(thisOne)
             var newModal = $("<div>", { class: "modal", id: thisOne.last_name })
@@ -140,7 +139,7 @@ $(document).ready(function () {
                 var information = (
                     ("<h4> State: " + thisOne.state + "</h4> <br>") +
                     ("<h4> Party: " + thisOne.party + "</h4> <br>") +
-                    ("<h4> More Information: " + "<a href='https://www.'" + thisOne.last_name + ".senate.gov target='_blank'>Web Site</a> </h4> <br>") +
+                    ("<h4> More Information: " + "<a href='https://www." + thisOne.last_name + ".senate.gov' target='_blank'>Web Site</a> </h4> <br>") +
                     ("<h5> Biographical Information: " + "<a href='http://bioguide.congress.gov/scripts/biodisplay.pl?index=" + thisOne.id + " target='_blank'>Biography</a> </h4> <br>")
                 )
                 return (header + information);
