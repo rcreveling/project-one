@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     var queryAllMembers = "https://api.propublica.org/congress/v1/115/senate/members.json";
     var allMembersArray = [];
+
     //BETH AJAX CALL//
     var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=2020 election&api-key=KdUok1bSMW9ZNypKxpRjEj4pEfLR6cAf";
 
@@ -74,6 +75,7 @@ $(document).ready(function () {
         };
     });
     //BETH AJAX CALL//
+
     // Congress api call
     $.ajax({
         url: queryAllMembers,
@@ -129,6 +131,45 @@ $(document).ready(function () {
 
         }
     })
+    //MICHAELS CALL INTEGRATION PROCESS//
+    function michaelsFunction(index) {
+        var thisSearch = allMembersArray[index].fec_candidate_id
+        var queryURL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + thisSearch + ".json")
+        $.ajax({
+            url: queryURL,
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader('X-API-Key', 'nSWxGCi8m5TJ7ma1XtjxUyj5lkenTTrYnUM947va'); },
+        }).then(function (response) {
+            console.log(response.results);
+            for (var i = 0; i < allMembersArray.length; i++) {
+                var total = response.results[0].total_contributions;
+                var totalDisbursments = response.results[0].total_disbursements;
+                var totalPacs = response.results[0].total_from_pacs;
+                var totalIndividual = response.results[0].total_from_individuals;
+
+                var chart = new CanvasJS.Chart(thisSearch, {
+                    title: {
+                        text: "Campaign Contributions"
+                    },
+                    data: [
+                        {
+                            // Change type to "doughnut", "line", "splineArea", etc.
+                            type: "pie",
+                            dataPoints: [
+                                // { label: "Total Contributions",  y: total  },
+                                { label: "Total Disbursments", y: totalDisbursments },
+                                { label: "Total Donations from PACS", y: totalPacs },
+                                { label: "Total Donations from Individuals", y: totalIndividual },
+                            ]
+                        }
+                    ]
+                });
+                chart.render();
+            }
+        })
+
+    }
+    ////MICHAELS CALL INTEGRATION PROCESS//
 
     //BRENDA's WORK TO BE INTEGRATED//
     function allMembersQueryResponse(response) {
@@ -188,7 +229,11 @@ $(document).ready(function () {
 
         buildCardForMember(indexVal) {
             var thisOne = allMembersArray[indexVal]
+            var thisSearch = allMembersArray[indexVal].fec_candidate_id
+            var canvasId = (thisSearch + "canvas")
+            var canvasDiv = $("<div>", { id: canvasId })
             console.log(thisOne)
+            var canvasBtn = $("<button>", { class: "btn black white-text", id: thisSearch })
             var newModal = $("<div>", { class: "modal", id: thisOne.last_name })
             var newModalContent = $("<div>", { class: "modal-content", id: "" })
             var newModalFooter = $("<div>", { class: "modal-footer", id: "" })
@@ -202,6 +247,7 @@ $(document).ready(function () {
                 )
                 return (header + information);
             })
+            newModalFooter.html()
             var themeImage = $("<img>");
             themeImage.attr('src', 'https://theunitedstates.io/images/congress/225x275/' + thisOne.id + '.jpg');
             themeImage.attr('alt', 'Senator ' + thisOne.first_name + ' ' + thisOne.last_name);
@@ -226,6 +272,13 @@ $(document).ready(function () {
                 width: "auto",
                 backgroundColor: "linear-gradient(to right, red white)"
             })
+            canvasDiv.css({
+                height: "100px",
+                width: "100%"
+            })
+            canvasBtn.text(thisOne.first_name + " " + thisOne.last_name + " FEC Data")
+            newModalFooter.append(canvasDiv).append(canvasBtn)
+
             newModal.append(newModalContent).append(themeImage).append(newModalFooter)
 
             return newModal;
