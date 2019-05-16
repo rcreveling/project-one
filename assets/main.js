@@ -35,12 +35,12 @@ $.ajax({
     method: "GET"
 }).then(function (response) {
     var results = response.response.docs;
-
+console.log(results);
     for (i = 0; i < results.length; i++) {
 
         // if the news article contains an image...
         if (results[i].multimedia[0]) {
-
+            console.log(results[i].headline.main);
             var imageSlider = $("<div>");
             imageSlider.attr("class", "fixed-action-btn");
 
@@ -57,8 +57,25 @@ $.ajax({
 
             var image = $("<img>");
             image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
-            image.attr("style", "height: 48.5vh");
+            image.css({
+                position: "absolute",
+                top: "0",
+                left: "0",
+                right: "0",
+                bottom: "0",
+                height: "49vh",
+                width: "100%",
+                paddingLeft: "40%",
+                paddingTop: "15vh",
+                background: "no-repeat center center"
+               
+            });
+            imageSlider.css({
+                
+            })
             imageSlider.append(image);
+
+            
 
             $(".slides").append(imageSlider);
         } else {
