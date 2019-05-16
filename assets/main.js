@@ -15,7 +15,67 @@ $(document).ready(function () {
 
     var queryAllMembers = "https://api.propublica.org/congress/v1/115/senate/members.json";
     var allMembersArray = [];
+    //BETH AJAX CALL//
+    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=2020 election&api-key=KdUok1bSMW9ZNypKxpRjEj4pEfLR6cAf";
 
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        var results = response.response.docs;
+        console.log(results);
+        for (i = 0; i < results.length; i++) {
+
+            // if the news article contains an image...
+            if (results[i].multimedia[0]) {
+                console.log(results[i].headline.main);
+                var imageSlider = $("<div>");
+                imageSlider.attr("class", "fixed-action-btn");
+
+                imageSlider = $("<li>");
+
+                var linkSlider = $("<a>");
+                linkSlider.attr("href", results[i].web_url);
+                linkSlider.attr("class", "btn-floating blue");
+
+                linkSlider.append("<i class='fa fa-link'></i>");
+
+
+
+
+                var image = $("<img>");
+                image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
+                image.css({
+                    height: "100%",
+                    width: "auto",
+                    boxSizing: "border-box",
+                    borderTop: "2px solid blue",
+                    borderBottom: "1px solid blue",
+                    padding: "0px !important",
+                    background: "no-repeat center center"
+                });
+                linkSlider.css({
+                    position: "relative",
+                    bottom: "7.5vh"
+                })
+                imageSlider.css({
+                    backgroundColor: "linear-gradient(to right, rgb(220, 220, 230) rgb(220, 20, 30))"
+                })
+                imageSlider.append(image);
+                imageSlider.append(linkSlider);
+
+
+                $(".slides").append(imageSlider);
+            } else {
+
+            };
+
+            $('.slider').removeClass('initialized');
+            $('.slider').slider();
+
+        };
+    });
+    //BETH AJAX CALL//
     // Congress api call
     $.ajax({
         url: queryAllMembers,
@@ -135,56 +195,42 @@ $(document).ready(function () {
             var newModalContent = $("<div>", { class: "modal-content", id: "" })
             var newModalFooter = $("<div>", { class: "modal-footer", id: "" })
             newModalContent.html(function () {
-                var header = ("<h1>" + thisOne.first_name + " " + thisOne.last_name + "</h1> <br>")
+                var header = ("<h1>" + thisOne.title + " " + thisOne.first_name + " " + thisOne.last_name + "</h1> <br>")
                 var information = (
                     ("<h4> State: " + thisOne.state + "</h4> <br>") +
                     ("<h4> Party: " + thisOne.party + "</h4> <br>") +
-                    ("<h4> More Information: " + "<a href='https://www." + thisOne.last_name + ".senate.gov' target='_blank'>Web Site</a> </h4> <br>") +
-                    ("<h5> Biographical Information: " + "<a href='http://bioguide.congress.gov/scripts/biodisplay.pl?index=" + thisOne.id + " target='_blank'>Biography</a> </h4> <br>")
+                    ("<h4> Website: " + "<a class='memberLink' href='https://www." + thisOne.last_name + ".senate.gov' target='_blank'>" + thisOne.first_name + " " + thisOne.last_name + "</a> </h4> <br>") +
+                    ("<h5> <a class='memberLink' href='http://bioguide.congress.gov/scripts/biodisplay.pl?index=" + thisOne.id + " target='_blank'>Biographical Information</a> </h4> <br>")
                 )
                 return (header + information);
             })
-            newModal.append(newModalContent).append(newModalFooter)
+            var themeImage = $("<img>");
+            themeImage.attr('src', 'https://theunitedstates.io/images/congress/225x275/' + thisOne.id + '.jpg');
+            themeImage.attr('alt', 'Senator ' + thisOne.first_name + ' ' + thisOne.last_name);
+            newModalContent.css({
+                textAlign: "left",
+                backgroundImage: "url(assets/images/full-bloom.png)",
+                backgroundRepeat: "infinite",
+
+
+            })
+            newModalFooter.css({
+                backgroundColor: "black",
+            })
+            themeImage.css({
+                float: "right",
+                position: "relative",
+                top: "-50vh",
+                right: "10px",
+                border: "solid 2px black",
+                boxShadow: "0px 0px 1px 3px black",
+                maxHeight: "20vh",
+                width: "auto",
+            })
+            newModal.append(newModalContent).append(themeImage).append(newModalFooter)
 
             return newModal;
         }
-        //     // this needs to be cleaned up desperately
-        //     var titleHtml = '<b>Name: </b>' + this.firstName + ' ' + this.lastName;
-        //     var brk = document.createElement('br');
-        //     var stateHtml = '<b>State Elected: </b>' + this.state;
-        //     var aBrk = document.createElement('br');
-        //     var partyHtml = '<b>Party Affiliation: </b>' + this.party;
-        //     var anotherBrk = document.createElement('br');
-        //     var infoHtml = '<a href="https://www.' + this.lastName + '.senate.gov" target="_blank">Web Site</a>';
-        //     var bioHtml = '<a href="http://bioguide.congress.gov/scripts/biodisplay.pl?index=' + this.memberId + '" target="_blank">Biography</a>';
-        //     // var brk3 = document.createElement('br');
-        //     var brk2 = document.createElement('br');
-        //     // var brk4 = document.createElement('br');
-
-        //     // console.log("disbursements (2018): " + disbursements);
-        //     debugger;
-        //     var headerPara = $('<div>', { class: "header", id: "" });
-        //     headerPara.attr('id', this.lastName.toUpperCase());
-
-        //     $(headerPara).append(titleHtml, brk, stateHtml, aBrk, partyHtml, anotherBrk, infoHtml, brk2, bioHtml);
-
-        //     var senBlock = document.createElement('div');
-        //     senBlock.className = 'card-block';
-        //     senBlock.append(headerPara);
-
-        //     var themeImage = document.createElement('img');
-        //     themeImage.setAttribute('src', 'https://theunitedstates.io/images/congress/225x275/' + this.memberId + '.jpg');
-        //     themeImage.setAttribute('alt', 'Senator ' + this.firstName + ' ' + this.lastName);
-        //     themeImage.className = 'card-image-top img-fluid';
-
-        //     var senModal = $("<div>", { class: "modal modal-fixed-footer", id: this.lastName });
-        //     var senModalContent = $("<div>", { class: "modal-content" })
-        //     senModalContent.append(themeImage)
-        //     senModalContent.append(senBlock)
-        //     senModal.append(senModalContent)
-
-
-        // }
         static getCampaignFinanceQuery(response) {
             console.log(response.results);
             var disbursements = response.results[0].total_disbursements;
