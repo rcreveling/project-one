@@ -42,6 +42,7 @@ $(document).ready(function () {
                 linkSlider.append("<i class='fa fa-link black'></i>");
                 var image = $("<img>");
                 image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
+                image.attr("class", "image");
                 image.css({
                     height: "100%",
                     width: "auto",
@@ -64,7 +65,22 @@ $(document).ready(function () {
 
                 
                 imageSlider.append(linkSlider);
-
+               
+                var headline = $("<a>");
+                headline.attr("href", results[i].web_url);
+                headline.css({
+                    position: "absolute",
+                    margin: "0 auto !important",
+                    top: "10vh",
+                    left: "25vw",
+                    width: "40vw !important",
+                    textAlign: "center",
+                    fontSize: "3em",
+                    color: "black",
+                    fontFamily: "'Vollkorn', serif",
+                })
+                headline.text(results[i].headline.main);
+                imageSlider.append(headline);
 
                 $(".slides").append(imageSlider);
             } else {
