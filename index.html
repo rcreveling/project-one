@@ -26,13 +26,16 @@
                 <li class="navItem"><a href="index.html">Home</a></li>
                 <li class="navItem"><a href="about.html">About</a></li>
                 <li class="navItem" id="navSearch">
-                    <form class="row">
-                        <div class="input-field col s8 offset-s4">
-                            <i class="material-icons prefix">search</i>
-                            <input id="search" type="text" class="validate section search">
-                            <label for="search">Search</label>
-                        </div>
-                    </form>
+                    <div class="row">
+                        <form id="searchForm">
+                            <div class="input-field col">
+                                <label id="searchLabel" class="label-icon" for="search"><i
+                                        class="material-icons">search</i><i class="material-icons">close</i></label>
+                                <input id="search" type="search" required>
+
+                            </div>
+                        </form>
+                    </div>
                 </li>
             </ul>
         </div>

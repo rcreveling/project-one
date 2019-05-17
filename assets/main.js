@@ -437,8 +437,6 @@ $(document).ready(function () {
         console.log(sendID)
         michaelsFunction(sendID)
     })
-    $(document).onKeyUp(function (event) {
 
-    })
 
 });

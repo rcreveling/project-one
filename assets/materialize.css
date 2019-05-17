@@ -8362,7 +8362,7 @@ input[type=range]::-ms-thumb {
 }
 
 .slider .indicators .indicator-item.active {
-  background-color: #4CAF50;
+  background-color: rgb(255, 0, 0);
 }
 
 .carousel {
