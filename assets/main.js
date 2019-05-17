@@ -121,7 +121,7 @@ $(document).ready(function () {
             );
 
             newRow.attr('id', name)
-            newRow.addClass("senatorDivision")
+            newRow.addClass("senatorDivision section scrollspy")
             var thisSenator = new Member(newRow.attr('id'))
             var modal = thisSenator.buildCardForMember(indexVal);
             console.log(modal, thisSenator)
@@ -161,30 +161,30 @@ $(document).ready(function () {
             beforeSend: function (xhr) { xhr.setRequestHeader('X-API-Key', 'nSWxGCi8m5TJ7ma1XtjxUyj5lkenTTrYnUM947va'); },
         }).then(function (response) {
             console.log(response.results);
-            for (var i = 0; i < allMembersArray.length; i++) {
-                var totalDisbursments = response.results[0].total_disbursements;
-                var totalPacs = response.results[0].total_from_pacs;
-                var totalIndividual = response.results[0].total_from_individuals;
-                var canvasID = (ID + "canvas")
-                var chart = new CanvasJS.Chart(canvasID, {
-                    title: {
-                        text: "Campaign Contributions"
-                    },
-                    data: [
-                        {
-                            // Change type to "doughnut", "line", "splineArea", etc.
-                            type: "pie",
-                            dataPoints: [
-                                // { label: "Total Contributions",  y: total  },
-                                { label: "Total Disbursments", y: totalDisbursments },
-                                { label: "Total Donations from PACS", y: totalPacs },
-                                { label: "Total Donations from Individuals", y: totalIndividual },
-                            ]
-                        }
-                    ]
-                });
-                chart.render();
-            }
+
+            var totalDisbursments = response.results[0].total_disbursements;
+            var totalPacs = response.results[0].total_from_pacs;
+            var totalIndividual = response.results[0].total_from_individuals;
+            var canvasID = (ID + "canvas")
+            var chart = new CanvasJS.Chart(canvasID, {
+                title: {
+                    text: "Campaign Contributions"
+                },
+                data: [
+                    {
+                        // Change type to "doughnut", "line", "splineArea", etc.
+                        type: "pie",
+                        dataPoints: [
+                            // { label: "Total Contributions",  y: total  },
+                            { label: "Total Disbursments", y: totalDisbursments },
+                            { label: "Total Donations from PACS", y: totalPacs },
+                            { label: "Total Donations from Individuals", y: totalIndividual },
+                        ]
+                    }
+                ]
+            });
+            chart.render();
+
         })
 
     }
@@ -437,6 +437,8 @@ $(document).ready(function () {
         console.log(sendID)
         michaelsFunction(sendID)
     })
+    $(document).onKeyUp(function (event) {
+
+    })
 
 });
-
