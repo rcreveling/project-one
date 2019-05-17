@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     var queryAllMembers = "https://api.propublica.org/congress/v1/115/senate/members.json";
     var allMembersArray = [];
+
     //BETH AJAX CALL//
     var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=2020 election&api-key=KdUok1bSMW9ZNypKxpRjEj4pEfLR6cAf";
 
@@ -29,6 +30,7 @@ $(document).ready(function () {
             // if the news article contains an image...
             if (results[i].multimedia[0]) {
                 console.log(results[i].headline.main);
+                var headline = $("")
                 var imageSlider = $("<div>");
                 imageSlider.attr("class", "fixed-action-btn");
 
@@ -37,12 +39,7 @@ $(document).ready(function () {
                 var linkSlider = $("<a>");
                 linkSlider.attr("href", results[i].web_url);
                 linkSlider.attr("class", "btn-floating blue");
-
-                linkSlider.append("<i class='fa fa-link'></i>");
-
-
-
-
+                linkSlider.append("<i class='fa fa-link black'></i>");
                 var image = $("<img>");
                 image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
                 image.css({
@@ -56,10 +53,12 @@ $(document).ready(function () {
                 });
                 linkSlider.css({
                     position: "relative",
-                    bottom: "7.5vh"
+                    bottom: "3vh",
+                    right: "3vw",
+                    boxShadow: "0px 0px 1px 1px white"
                 })
                 imageSlider.css({
-                    backgroundColor: "linear-gradient(to right, rgb(220, 220, 230) rgb(220, 20, 30))"
+                    background: "linear-gradient(0.25turn, blue, white, rgba(230, 0, 0, 0.9))"
                 })
                 imageSlider.append(image);
 
@@ -78,6 +77,7 @@ $(document).ready(function () {
         };
     });
     //BETH AJAX CALL//
+
     // Congress api call
     $.ajax({
         url: queryAllMembers,
@@ -133,6 +133,45 @@ $(document).ready(function () {
 
         }
     })
+    //MICHAELS CALL INTEGRATION PROCESS//
+    function michaelsFunction(index) {
+        var thisSearch = allMembersArray[index].fec_candidate_id
+        var queryURL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + thisSearch + ".json")
+        $.ajax({
+            url: queryURL,
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader('X-API-Key', 'nSWxGCi8m5TJ7ma1XtjxUyj5lkenTTrYnUM947va'); },
+        }).then(function (response) {
+            console.log(response.results);
+            for (var i = 0; i < allMembersArray.length; i++) {
+                var total = response.results[0].total_contributions;
+                var totalDisbursments = response.results[0].total_disbursements;
+                var totalPacs = response.results[0].total_from_pacs;
+                var totalIndividual = response.results[0].total_from_individuals;
+
+                var chart = new CanvasJS.Chart(thisSearch, {
+                    title: {
+                        text: "Campaign Contributions"
+                    },
+                    data: [
+                        {
+                            // Change type to "doughnut", "line", "splineArea", etc.
+                            type: "pie",
+                            dataPoints: [
+                                // { label: "Total Contributions",  y: total  },
+                                { label: "Total Disbursments", y: totalDisbursments },
+                                { label: "Total Donations from PACS", y: totalPacs },
+                                { label: "Total Donations from Individuals", y: totalIndividual },
+                            ]
+                        }
+                    ]
+                });
+                chart.render();
+            }
+        })
+
+    }
+    ////MICHAELS CALL INTEGRATION PROCESS//
 
     //BRENDA's WORK TO BE INTEGRATED//
     function allMembersQueryResponse(response) {
@@ -192,7 +231,11 @@ $(document).ready(function () {
 
         buildCardForMember(indexVal) {
             var thisOne = allMembersArray[indexVal]
+            var thisSearch = allMembersArray[indexVal].fec_candidate_id
+            var canvasId = (thisSearch + "canvas")
+            var canvasDiv = $("<div>", { id: canvasId })
             console.log(thisOne)
+            var canvasBtn = $("<button>", { class: "btn black white-text", id: thisSearch })
             var newModal = $("<div>", { class: "modal", id: thisOne.last_name })
             var newModalContent = $("<div>", { class: "modal-content", id: "" })
             var newModalFooter = $("<div>", { class: "modal-footer", id: "" })
@@ -206,6 +249,7 @@ $(document).ready(function () {
                 )
                 return (header + information);
             })
+            newModalFooter.html()
             var themeImage = $("<img>");
             themeImage.attr('src', 'https://theunitedstates.io/images/congress/225x275/' + thisOne.id + '.jpg');
             themeImage.attr('alt', 'Senator ' + thisOne.first_name + ' ' + thisOne.last_name);
@@ -228,7 +272,15 @@ $(document).ready(function () {
                 boxShadow: "0px 0px 1px 3px black",
                 maxHeight: "20vh",
                 width: "auto",
+                backgroundColor: "linear-gradient(to right, red white)"
             })
+            canvasDiv.css({
+                height: "100px",
+                width: "100%"
+            })
+            canvasBtn.text(thisOne.first_name + " " + thisOne.last_name + " FEC Data")
+            newModalFooter.append(canvasDiv).append(canvasBtn)
+
             newModal.append(newModalContent).append(themeImage).append(newModalFooter)
 
             return newModal;
