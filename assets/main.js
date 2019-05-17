@@ -62,6 +62,8 @@ $(document).ready(function () {
                     backgroundColor: "linear-gradient(to right, rgb(220, 220, 230) rgb(220, 20, 30))"
                 })
                 imageSlider.append(image);
+
+                
                 imageSlider.append(linkSlider);
 
 
