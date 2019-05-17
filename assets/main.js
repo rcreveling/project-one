@@ -152,41 +152,97 @@ $(document).ready(function () {
         }
 
     })
+
+    function michaelsCampaignFinanceResponse(response) {
+        // handle both the ok response and the errors 
+        // we have to display something
+        // otherwise we clicked the button and nothing happens
+        var totalContributions = 0;
+        var totalDisbursments = 0;
+        var totalPacs = 0;
+        var totalIndividual = 0;
+        if (response.status === 'OK') {
+            console.log(response.results);
+            totalContributions = response.results[0].total_contributions;
+            totalDisbursments = response.results[0].total_disbursements;
+            totalPacs = response.results[0].total_from_pacs;
+            totalIndividual = response.results[0].total_from_individuals;
+        } else {
+            console.log('An error in campaign Finance Query Response');
+            console.log(response);
+
+        }
+        
+        var disbursementHtml = $('<div>').text('Disbursements ' + this.campaignFinanceYear + ':  $' + totalDisbursments.toFixed(2));
+        var contributionsHtml = $('<div>').text('Contributions ' + this.campaignFinanceYear + ':  $' + totalContributions.toFixed(2));
+        var individualsHtml = $('<div>').text('From Individuals ' + this.campaignFinanceYear + ':  $' + totalIndividual.toFixed(2));
+        var pacsHtml = $('<div>').text('From PACs ' + this.campaignFinanceYear + ':  $' + totalPacs.toFixed(2));
+        var brk = $('<br>');
+        
+        var financeID = (this.campaignFinanceID + "finance")
+        var idFecId = "#" + financeID;
+        
+        $(idFecId).append(contributionsHtml);
+        $(idFecId).append(disbursementHtml);
+        $(idFecId).append(individualsHtml);
+        $(idFecId).append(pacsHtml);
+        $(idFecId).append(brk);
+        
+        // if there is nothing to render exit now
+        if (totalContributions === 0) {
+            return;
+        }
+
+        // now build the chart with canvas
+        var canvasID = (this.campaignFinanceID + "canvas")
+        var chart = new CanvasJS.Chart(canvasID, {
+        title: {
+            text: "Campaign Contributions " + this.campaignFinanceYear
+            },
+            data: [
+                {
+                    // Change type to "doughnut", "line", "splineArea", etc.
+                    type: "pie",
+                    dataPoints: [
+                        // { label: "Total Contributions",  y: total  },
+                        { label: "Total Disbursments", y: totalDisbursments },
+                        { label: "Total Donations from PACS", y: totalPacs },
+                        { label: "Total Donations from Individuals", y: totalIndividual },
+                    ]
+                }
+            ]
+        });
+        chart.render();
+    }
+
+    function michaelsCampaginFinanceError(error) {
+        console.log('there was an error on the campaign finance query');
+        console.log(error);
+    }
     //MICHAELS CALL INTEGRATION PROCESS//
     function michaelsFunction(ID) {
-        var queryURL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + ID + ".json")
+        var query2018URL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + ID + ".json");
+        var query2016URL = ("https://api.propublica.org/campaign-finance/v1/2016/candidates/" + ID + ".json");
+
+        // do the 2018 ajax finance query
         $.ajax({
-            url: queryURL,
+            url: query2018URL,
             method: "GET",
             beforeSend: function (xhr) { xhr.setRequestHeader('X-API-Key', 'nSWxGCi8m5TJ7ma1XtjxUyj5lkenTTrYnUM947va'); },
-        }).then(function (response) {
-            console.log(response.results);
-            for (var i = 0; i < allMembersArray.length; i++) {
-                var totalDisbursments = response.results[0].total_disbursements;
-                var totalPacs = response.results[0].total_from_pacs;
-                var totalIndividual = response.results[0].total_from_individuals;
-                var canvasID = (ID + "canvas")
-                var chart = new CanvasJS.Chart(canvasID, {
-                    title: {
-                        text: "Campaign Contributions"
-                    },
-                    data: [
-                        {
-                            // Change type to "doughnut", "line", "splineArea", etc.
-                            type: "pie",
-                            dataPoints: [
-                                // { label: "Total Contributions",  y: total  },
-                                { label: "Total Disbursments", y: totalDisbursments },
-                                { label: "Total Donations from PACS", y: totalPacs },
-                                { label: "Total Donations from Individuals", y: totalIndividual },
-                            ]
-                        }
-                    ]
-                });
-                chart.render();
-            }
+            context: {campaignFinanceYear: '2018', campaignFinanceID: ID},
         })
+        .then(michaelsCampaignFinanceResponse)
+        .catch(michaelsCampaginFinanceError);
 
+        // do the 2016 ajax finance query
+        $.ajax({
+            url: query2016URL,
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader('X-API-Key', 'nSWxGCi8m5TJ7ma1XtjxUyj5lkenTTrYnUM947va'); },
+            context: {campaignFinanceYear: '2016', campaignFinanceID: ID},
+        })
+        .then(michaelsCampaignFinanceResponse)
+        .catch(michaelsCampaginFinanceError);
     }
 
     ////MICHAELS CALL INTEGRATION PROCESS//
@@ -251,6 +307,8 @@ $(document).ready(function () {
         buildCardForMember(indexVal) {
             var thisOne = allMembersArray[indexVal]
             var thisSearch = allMembersArray[indexVal].fec_candidate_id
+            var financeId = (thisSearch + "finance")
+            var financeDiv = $("<div>", { id: financeId })
             var canvasId = (thisSearch + "canvas")
             var canvasDiv = $("<div>", { id: canvasId })
             console.log(thisOne)
@@ -264,7 +322,7 @@ $(document).ready(function () {
                     ("<h4> State: " + thisOne.state + "</h4> <br>") +
                     ("<h4> Party: " + thisOne.party + "</h4> <br>") +
                     ("<h4> Website: " + "<a class='memberLink' href='https://www." + thisOne.last_name + ".senate.gov' target='_blank'>" + thisOne.first_name + " " + thisOne.last_name + "</a> </h4> <br>") +
-                    ("<h5> <a class='memberLink' href='http://bioguide.congress.gov/scripts/biodisplay.pl?index=" + thisOne.id + " target='_blank'>Biographical Information</a> </h4> <br>")
+                    ("<h5> <a class='memberLink' href='http://bioguide.congress.gov/scripts/biodisplay.pl?index=" + thisOne.id + "' target='_blank'>Biographical Information</a> </h4> <br>")
                 )
                 return (header + information);
             })
@@ -295,12 +353,18 @@ $(document).ready(function () {
                 width: "auto",
                 backgroundColor: "linear-gradient(to right, red white)"
             })
+            financeDiv.css({
+                color: "white",
+                height: "50%",
+                width: "100%"
+            })
+
             canvasDiv.css({
-                height: "auto",
+                height: "50%",
                 width: "100%"
             })
             canvasBtn.text(thisOne.first_name + " " + thisOne.last_name + " FEC Data")
-            newModalFooter.append(canvasDiv).append(canvasBtn)
+            newModalFooter.append(financeDiv).append(canvasDiv).append(canvasBtn)
 
             newModal.append(newModalContent).append(themeImage).append(newModalFooter)
 
