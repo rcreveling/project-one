@@ -38,7 +38,8 @@ $(document).ready(function () {
 
                 var linkSlider = $("<a>");
                 linkSlider.attr("href", results[i].web_url);
-                linkSlider.attr("class", "btn-floating blue");
+                linkSlider.attr("target", "_blank")
+                linkSlider.addClass("btn-floating blue");
                 linkSlider.append("<i class='fa fa-link black'></i>");
                 var image = $("<img>");
                 image.attr("src", "https://www.nytimes.com/" + results[i].multimedia[0].url);
@@ -47,9 +48,11 @@ $(document).ready(function () {
                     width: "auto",
                     boxSizing: "border-box",
                     borderTop: "2px solid blue",
+                    borderRight: "1px solid rgba(0, 20, 204, 0.8)",
                     borderBottom: "1px solid blue",
                     padding: "0px !important",
-                    background: "no-repeat center center"
+                    background: "no-repeat center center",
+                    boxShadow: "1px 0px 10px 1px grey"
                 });
                 linkSlider.css({
                     position: "relative",
@@ -63,6 +66,23 @@ $(document).ready(function () {
                 imageSlider.append(image);
                 imageSlider.append(linkSlider);
 
+                var headline = $("<a>");
+                headline.attr("href", results[i].web_url);
+                headline.attr("target", "_blank")
+                headline.css({
+                    position: "absolute",
+                    margin: "0 auto !important",
+                    top: "10vh",
+                    left: "25vw",
+                    width: "40vw !important",
+                    textAlign: "left",
+                    fontSize: "3em",
+                    color: "black",
+                    fontFamily: "'Vollkorn', serif",
+                })
+                headline.text('"' + results[i].headline.main + '"');
+
+                imageSlider.append(headline);
 
                 $(".slides").append(imageSlider);
             } else {
