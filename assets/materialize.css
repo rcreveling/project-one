@@ -5788,8 +5788,8 @@ body.keyboard-focused .dropdown-content li:focus {
 .modal .modal-footer {
   border-radius: 0 0 2px 2px;
   background-color: #fafafa;
-  padding: 4px 6px;
-  height: 56px;
+  padding: 1px;
+  min-height: 30vh;
   width: 100%;
   text-align: right;
 }

@@ -130,11 +130,11 @@ $(document).ready(function () {
             }
 
         }
+
     })
     //MICHAELS CALL INTEGRATION PROCESS//
-    function michaelsFunction(index) {
-        var thisSearch = allMembersArray[index].fec_candidate_id
-        var queryURL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + thisSearch + ".json")
+    function michaelsFunction(ID) {
+        var queryURL = ("https://api.propublica.org/campaign-finance/v1/2018/candidates/" + ID + ".json")
         $.ajax({
             url: queryURL,
             method: "GET",
@@ -142,12 +142,11 @@ $(document).ready(function () {
         }).then(function (response) {
             console.log(response.results);
             for (var i = 0; i < allMembersArray.length; i++) {
-                var total = response.results[0].total_contributions;
                 var totalDisbursments = response.results[0].total_disbursements;
                 var totalPacs = response.results[0].total_from_pacs;
                 var totalIndividual = response.results[0].total_from_individuals;
-
-                var chart = new CanvasJS.Chart(thisSearch, {
+                var canvasID = (ID + "canvas")
+                var chart = new CanvasJS.Chart(canvasID, {
                     title: {
                         text: "Campaign Contributions"
                     },
@@ -169,6 +168,7 @@ $(document).ready(function () {
         })
 
     }
+
     ////MICHAELS CALL INTEGRATION PROCESS//
 
     //BRENDA's WORK TO BE INTEGRATED//
@@ -197,6 +197,7 @@ $(document).ready(function () {
             .then(allMembersQueryResponse)
             .catch(allMembersErrorResponse);
     }
+
     class Member {
         constructor(nameStr) {
             var nameArray = nameStr.split(" ");
@@ -233,12 +234,12 @@ $(document).ready(function () {
             var canvasId = (thisSearch + "canvas")
             var canvasDiv = $("<div>", { id: canvasId })
             console.log(thisOne)
-            var canvasBtn = $("<button>", { class: "btn black white-text", id: thisSearch })
+            var canvasBtn = $("<button>", { class: "btn black white-text FECbutton", id: thisSearch })
             var newModal = $("<div>", { class: "modal", id: thisOne.last_name })
             var newModalContent = $("<div>", { class: "modal-content", id: "" })
             var newModalFooter = $("<div>", { class: "modal-footer", id: "" })
             newModalContent.html(function () {
-                var header = ("<h1>" + thisOne.title + " " + thisOne.first_name + " " + thisOne.last_name + "</h1> <br>")
+                var header = ("<h1 style='width:100%'>" + thisOne.title + " " + thisOne.first_name + " " + thisOne.last_name + "</h1> <br>")
                 var information = (
                     ("<h4> State: " + thisOne.state + "</h4> <br>") +
                     ("<h4> Party: " + thisOne.party + "</h4> <br>") +
@@ -260,20 +261,22 @@ $(document).ready(function () {
             })
             newModalFooter.css({
                 backgroundColor: "black",
+                maxWidth: "100%",
+
             })
             themeImage.css({
                 float: "right",
                 position: "relative",
-                top: "-50vh",
-                right: "10px",
+                top: "-34vh",
+                right: "2vw",
                 border: "solid 2px black",
                 boxShadow: "0px 0px 1px 3px black",
-                maxHeight: "20vh",
+                maxHeight: "30vh",
                 width: "auto",
                 backgroundColor: "linear-gradient(to right, red white)"
             })
             canvasDiv.css({
-                height: "100px",
+                height: "auto",
                 width: "100%"
             })
             canvasBtn.text(thisOne.first_name + " " + thisOne.last_name + " FEC Data")
@@ -409,4 +412,11 @@ $(document).ready(function () {
         set memberIdentifier(id) { this.memberId = id; }
 
     }
+    $(document).on("click", ".FECbutton", function () {
+        var sendID = $(this).attr('id')
+        console.log(sendID)
+        michaelsFunction(sendID)
+    })
+
 });
+
