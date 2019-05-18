@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>More Information</title>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Questrial|Stylish|Vollkorn" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/materialize.css">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper blue darken-3 shadow">
+            <img href="#!" class="brand-logo center mylogo" src="assets/images/NewLogo.png"></img>
+            <ul class="left hide-on-small-and-down">
+                <li class="navItem"><a href="index.html">Home</a></li>
+                <li class="navItem"><a href="about.html">About</a></li>
+                <li class="navItem"><a href="moreInfo.html">More Information</a></li>
+                <li class="navItem" id="navSearch">
+                    <form class="row">
+                        <div class="input-field col s8 offset-s4">
+                            <i class="material-icons prefix">search</i>
+                            <input id="search" type="text" class="validate section search">
+                            <label for="search">Search</label>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--END NAV-->
+    <div class="container white">
+        <section class="main-section">
+          <h2>Concerned about our country's political future? Want to know more? Sign up for our newsletter</h2>
+    
+          <form id="contact-form">
+            <ul>
+              <li>
+                <label for="name"><b>Name</b></label>
+                <input type="text" id="name" name="name" placeholder=" Abraham Lincoln" required="required">
+              </li>
+              <li>
+                <label for="email"><b>Email</b></label>
+                <input type="email" id="email" name="email" placeholder=" honestabe@thewhitehouse.com" required="required">
+              </li>
+              <li>
+                <label for="message"><b>Message</b></label>
+                <textarea id="message" name="message" required="required"></textarea>
+              </li>
+            </ul>
+            <input type="submit">
+          </form>
+    
+        </section>
+    </div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./assets/materialize.js"></script>
+    <script src="assets/main.js"></script>
+</body>
+
+</html>
