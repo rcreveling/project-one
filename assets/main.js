@@ -121,7 +121,7 @@ $(document).ready(function () {
             );
 
             newRow.attr('id', name)
-            newRow.addClass("senatorDivision")
+            newRow.addClass("senatorDivision section scrollspy")
             var thisSenator = new Member(newRow.attr('id'))
             var modal = thisSenator.buildCardForMember(indexVal);
             console.log(modal, thisSenator)
@@ -502,5 +502,5 @@ $(document).ready(function () {
         michaelsFunction(sendID)
     })
 
-});
 
+});
